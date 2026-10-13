@@ -23,11 +23,19 @@ export function App() {
   const [isInRoom, setIsInRoom] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
-  // Connection & Room Inputs
-  const [serverUrl, setServerUrl] = useState("ws://127.0.0.1:4000/ws");
-  const [roomCode, setRoomCode] = useState("linkora-secret-lounge");
-  const [displayName, setDisplayName] = useState("GamerFriend");
-  const [e2eePassphrase, setE2eePassphrase] = useState("LinkoraSecure2026!");
+  // Connection & Room Inputs (defaults to live Railway production signaling server)
+  const [serverUrl, setServerUrl] = useState(() => {
+    return localStorage.getItem("linkora_server_url") || "wss://linkorasignaling-server-production.up.railway.app/ws";
+  });
+  const [roomCode, setRoomCode] = useState(() => {
+    return localStorage.getItem("linkora_room_code") || "linkora-secret-lounge";
+  });
+  const [displayName, setDisplayName] = useState(() => {
+    return localStorage.getItem("linkora_display_name") || "GamerFriend";
+  });
+  const [e2eePassphrase, setE2eePassphrase] = useState(() => {
+    return localStorage.getItem("linkora_e2ee_pass") || "LinkoraSecure2026!";
+  });
   const [connectionStatus, setConnectionStatus] = useState<ConnectionState>("disconnected");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
