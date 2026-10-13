@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  # Linkora Fastify WebSocket Signaling Server
+  signaling:
+    build:
+      context: .
+      dockerfile: apps/signaling-server/Dockerfile
+    container_name: linkora-signaling
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - HOST=0.0.0.0
+      - TURN_SECRET=${TURN_SECRET:-linkora-production-secret-change-me}
+      - TURN_URLS=turn:${EXTERNAL_IP:-127.0.0.1}:3478?transport=udp,turn:${EXTERNAL_IP:-127.0.0.1}:3478?transport=tcp
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  # Coturn STUN & TURN Relay Server
+  coturn:
+    image: coturn/coturn:latest
+    container_name: linkora-coturn
+    restart: unless-stopped
+    network_mode: "host" # Crucial for UDP relay port performance on Linux VPS
+    volumes:
+      - ./infra/coturn/turnserver.conf:/etc/turnserver.conf:ro
+    command:
+      - "-c"
+      - "/etc/turnserver.conf"

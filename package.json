@@ -1,0 +1,21 @@
+{
+  "name": "linkora-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Linkora - Private P2P Voice and Screen Sharing PoC",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:server": "npm --workspace=apps/signaling-server run dev",
+    "dev:desktop": "npm --workspace=apps/desktop run dev",
+    "build:shared": "npm --workspace=packages/shared run build",
+    "build:crypto": "npm --workspace=packages/crypto run build",
+    "build:server": "npm --workspace=apps/signaling-server run build",
+    "build:desktop": "npm --workspace=apps/desktop run build",
+    "test": "npm --workspace=packages/crypto run test && npm --workspace=apps/signaling-server run test",
+    "build:windows": "npm --workspace=apps/desktop run tauri build"
+  },
+  "keywords": ["webrtc", "p2p", "tauri", "e2ee", "voice", "screen-sharing"]
+}
