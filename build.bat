@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 echo ============================================================
-echo         LINKORA WINDOWS BUILD & SIGN AUTOMATION
+echo         LINKORA WINDOWS BUILD ^& SIGN AUTOMATION
 echo ============================================================
 echo.
 
