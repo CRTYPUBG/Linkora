@@ -15,9 +15,9 @@ RUN apk add --no-cache curl
 
 COPY package*.json ./
 COPY packages/shared/package*.json ./packages/shared/
-COPY packages/shared/dist ./packages/shared/dist
+COPY --from=builder /app/packages/shared/dist ./packages/shared/dist
 COPY apps/signaling-server/package*.json ./apps/signaling-server/
-COPY apps/signaling-server/dist ./apps/signaling-server/dist
+COPY --from=builder /app/apps/signaling-server/dist ./apps/signaling-server/dist
 
 RUN npm install --omit=dev
 
